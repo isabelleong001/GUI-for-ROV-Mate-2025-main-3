@@ -1,4 +1,5 @@
 import sys
+import threading
 from PySide6.QtGui import QAction, QFont, QFontDatabase, QKeyEvent
 from PySide6.QtCore import QCoreApplication, QFile, Qt
 from PySide6.QtWidgets import (
@@ -6,8 +7,9 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtUiTools import QUiLoader
 
-from libaries.visual.visualEffects import STYLE
-from libaries.camera.cameras_new import CAMERAS
+from libraries.visual.visualEffects import STYLE
+from libraries.camera.cameras_new import CAMERAS
+from libraries.controller_master.connect import XboxController, run_controllers
 
 class MyApp(QMainWindow):
     def __init__(self):
@@ -109,7 +111,7 @@ class MyApp(QMainWindow):
                 self.cam_3_toggle_btn
             ],
             urls=[
-                f"http://{pi_ip}:8080/stream",
+                '192.168.8.161',
                 "http://109.228.134.144:81/mjpg/video.mjpg",  # Halmstad, Sweden                            #f"http://{pi_ip}:8081/?action=stream",
                 "http://161.51.234.153:8080/mjpg/video.mjpg"  # Houston, Texas                              #f"http://{pi_ip}:8082/?action=stream"
             ]
@@ -196,4 +198,8 @@ def guiInitiate():
     sys.exit(app.exec())
 
 if __name__ == '__main__':
-    guiInitiate()
+    guiThread = threading.Thread(target=guiInitiate())
+    controlThread = threading.Thread(target=run_controllers())
+
+    guiThread.start()
+    controlThread.start()

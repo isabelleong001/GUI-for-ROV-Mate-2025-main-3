@@ -6,8 +6,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtUiTools import QUiLoader
 
-from libaries.visual.visualEffects import STYLE
-from libaries.window.file_dialog import FILE_SELECTOR 
+from libraries.visual.visualEffects import STYLE
+from libraries.window.file_dialog import FILE_SELECTOR 
 
 class MyApp(QMainWindow):
     def __init__(self):

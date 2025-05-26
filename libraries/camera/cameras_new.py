@@ -1,6 +1,8 @@
 import sys
 import os
 import cv2
+import socket
+import numpy as np
 from PySide6.QtCore import QTimer, Qt, QThread, Signal, QObject, Slot
 from PySide6.QtGui import QImage, QPixmap, QIcon
 
@@ -17,7 +19,10 @@ class CameraWorker(QObject):
     @Slot()
     def start(self):
         self.running = True
-        self.cap = cv2.VideoCapture(self.url)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.bind((self.url, 5005))
+        packet, _ = sock.recvfrom(65536)
+        self.cap = cv2.imdecode(np.frombuffer(packet, dtype=np.uint8), 1)
         if not self.cap.isOpened():
             print(f"[Worker] Failed to open stream: {self.url}")
             return
