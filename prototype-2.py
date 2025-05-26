@@ -2,7 +2,7 @@ import sys
 from PySide6.QtGui import QAction, QFont, QFontDatabase, QKeyEvent
 from PySide6.QtCore import QCoreApplication, QFile, Qt
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QPushButton, QStackedWidget, QLabel, QComboBox, QWidget, QTabWidget
+    QApplication, QMainWindow, QPushButton, QStackedWidget, QLabel, QComboBox, QWidget, QTabWidget, QLineEdit
 )
 from PySide6.QtUiTools import QUiLoader
 
@@ -43,6 +43,9 @@ class MyApp(QMainWindow):
 
         self.style = STYLE()
         self.style.setStylesheet(QApplication.instance())
+
+        #self.angle1 = self.ui.findChild(QLineEdit, "angleX1_lineedit")
+        #self.angle1.setText("test")
 
         self.controlPanelTab() # Control Panel
 
@@ -111,6 +114,9 @@ class MyApp(QMainWindow):
                 "http://161.51.234.153:8080/mjpg/video.mjpg"  # Houston, Texas                              #f"http://{pi_ip}:8082/?action=stream"
             ]
         )
+    
+    #def thrusterTab(self):
+
 
     def safe_quit(self):
         self.closeEvent
@@ -151,7 +157,6 @@ class MyApp(QMainWindow):
             camera_panel_container.updateGeometry()
             camera_panel_container.update()
             camera_panel_container.repaint()
-
 
 def guiInitiate(): 
     """
